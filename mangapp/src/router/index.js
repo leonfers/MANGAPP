@@ -5,6 +5,7 @@ import Anuncios from '@/components/Anuncios'
 import Mangas from '@/components/Mangas'
 import NovoAnuncio from '@/components/NovoAnuncio'
 import NovoManga from '@/components/NovoManga'
+import Transacoes from '@/components/Transacoes'
 import Login from '@/components/Login'
 import VueCookie from 'vue-cookie'
 
@@ -45,6 +46,15 @@ let router = new Router({
       path: '/NovoManga',
       name: 'NovoManga',
       component: NovoManga,
+      meta: { 
+        requiresAuth: true,
+        is_admin : false
+      }
+    },
+    {
+      path: '/Transacoes',
+      name: 'Transacoes',
+      component: Transacoes,
       meta: { 
         requiresAuth: true,
         is_admin : false

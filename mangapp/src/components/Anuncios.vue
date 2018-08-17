@@ -7,13 +7,13 @@
         <h2 class="subtitle is-4">Eram estes os mangas que você queria?</h2>
         <router-link to="NovoAnuncio">Novo Anuncio</router-link>
         <div class="columns" v-if="anuncios && anuncios.length">
-          <div class="column is-one-third" v-bind:key="anuncio" v-for="anuncio of anuncios">
-            <div v-if="anuncio.status == true" class="card">
+          <div class="column is-one-third" v-bind:key="anuncio.id" v-for="anuncio of anuncios">
+            <div class="card" v-if="anuncio.status">
               <div class="card-content">
                 <p class="titulo">{{ anuncio.titulo }}</p>
                 <p class="valor">{{ anuncio.valor }}</p>
                 <p class="descricao">{{ anuncio.descricao }}</p>
-                <a class="button is-primary"> Comprar </a>
+                <a class="button is-primary" v-on:click="handleSubmit(anuncio)"> Comprar </a>
               </div>
             </div>
           </div>
@@ -31,18 +31,63 @@ export default {
   data: () => ({
     anuncios: [],
     errors:[],
+    transacao:{
+      anuncio:  null,
+    }
   }),
+  
+  methods:{
+     handleSubmit(anuncio) {
 
+       this.transacao.anuncio = process.env.API+'anuncios/'+anuncio.id+'/';
+     axios
+        .post(process.env.API + "transacoes/", this.transacao,{
+          headers: { "content-type": "application/json", "Authorization" : "Bearer " + JSON.parse(this.$cookie.get("user-token")).access}
+        })
+        .then(
+          result => {
+            this.messages.push('Compra efetuada');
+          },
+          error => {
+             console.error(error);
+             this.error.push(error);
+              if(error.response.status == 401){
+                this.redirectToLogin();
+              }
+          }
+        );
+        this.initAnuncios();
+    },
+    initAnuncios(){
+      axios
+          .get(process.env.API + "anuncios/", {
+            headers: { "content-type": "application/json" , "Authorization" : "Bearer " + JSON.parse(this.$cookie.get("user-token")).access}
+          })
+          .then(
+            result => {
+              this.anuncios = result.data;
+            },
+
+            error => {
+              console.error(error);
+              if(error.response.status == '401'){
+                this.redirectToLogin();
+              }
+            }
+          );
+      
+      
+      
+      },
+      redirectToLogin(){
+        this.$router.push({ name: 'Login', query: { redirect: '/novo-anuncio#/Mangas' } });
+      }
+
+  },
   created() {
-    axios.get('/anuncios')
-      .then(response => {
-        this.anuncios = response.data;
-        console.log('TESTE')
-      })
-      .catch(e => {
-        this.errors.push(e)
-      })
+    this.initAnuncios();
   }
+  
 }
 </script>
 

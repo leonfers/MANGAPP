@@ -18,7 +18,7 @@
           <router-link to="Login" class="navbar-item r-item">Login</router-link>
           <router-link to="Anuncios" class="navbar-item r-item">Anuncios</router-link>
           <router-link to="Mangas" class="navbar-item r-item">Mangas</router-link>
-          <router-link to="faq" class="navbar-item r-item">Transações</router-link>
+          <router-link to="Transacoes" class="navbar-item r-item">Transações</router-link>
           <router-link to="faq" class="navbar-item r-item">Perfil</router-link>
           
 
