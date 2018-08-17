@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "Login",
   data: () => ({
@@ -52,7 +53,7 @@ export default {
 
   methods: {
     handleSubmit() {
-      this.$http
+      axios
         .post(process.env.API + "api/token/", this.user, {
           headers: { "content-type": "application/json" }
         })
