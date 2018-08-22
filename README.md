@@ -8,8 +8,8 @@ https://youtu.be/VlSi7q8aT9I
 https://github.com/Ermeson16/Atividade-F-TEP
 
 ### Tecnologias usadas:
-. VUE-JS
-. VUE-CLI
-. BULMA-CSS
+* VUE-JS
+* VUE-CLI
+* BULMA-CSS
 
 
